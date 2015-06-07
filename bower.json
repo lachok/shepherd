@@ -1,0 +1,21 @@
+{
+  "name": "Shepherd",
+  "version": "0.0.0",
+  "authors": [
+    "lachok <lacho.k@gmail.com>"
+  ],
+  "description": "Capture useful data about the user's actions on your website up to the moment they send feedback",
+  "main": "src/shepherd.js",
+  "license": "No License",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "console-shim": "*",
+    "json2": "*"
+  }
+}
