@@ -31,10 +31,10 @@ var linkClickedActionType = {
   attributesExtractor: function($element) {
     return {
       href: $element.attr('href'),
-			title: $element.attr('title'),
-			text: $element.text()
+      title: $element.attr('title'),
+      text: $element.text()
     };
   }
-}
+};
 ```
 * Remove dependency on jQuery?
