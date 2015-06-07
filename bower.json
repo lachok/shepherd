@@ -16,6 +16,7 @@
   ],
   "dependencies": {
     "console-shim": "*",
-    "json2": "*"
+    "json2": "*",
+    "jquery-leanmodal": "*"
   }
 }
