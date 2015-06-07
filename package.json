@@ -1,0 +1,18 @@
+{
+  "name": "shepherd",
+  "version": "0.0.0",
+  "description": "Capture useful data about your users' actions on your website up to the moment they send feedback",
+  "devDependencies": {
+    "del": "^1.2.0",
+    "gulp": "^3.9.0",
+    "gulp-file-include": "^0.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lachok/shepherd.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lachok/shepherd/issues"
+  },
+  "homepage": "https://github.com/lachok/shepherd#readme"
+}
