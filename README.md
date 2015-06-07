@@ -22,6 +22,7 @@ At the moment this is more a proof-of-concept than anything really useful. The m
 * Use a build system (gulp?) so that the code can be easier to organise but is still compiled into a single file
 * Organise the source code into core and modules, e.g. actionType modules, rendering module, etc.
 * Add tests
+* Make it easy to integrate with popular feedback forms
 * Save a timestamp for each action
 * Make it easy to create new and custom action types just by providing an action type definition, e.g.
 ```javascript
