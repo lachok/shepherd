@@ -23,7 +23,7 @@ At the moment this is more a proof-of-concept than anything really useful. The m
 * Organise the source code into core and modules, e.g. actionType modules, rendering module, etc.
 * Add tests
 * Make it easy to create new and custom action types just by providing an action type definition, e.g.
-```
+```javascript
 var linkClickedActionType = {
   actionType: 'clicked link',
   selector: 'a',
