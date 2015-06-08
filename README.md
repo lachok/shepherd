@@ -24,6 +24,7 @@ At the moment this is more a proof-of-concept than anything really useful. The m
 * Add tests
 * Make it easy to integrate with popular feedback forms
 * Save a timestamp for each action
+* Use [gulp-jade](https://www.npmjs.com/package/gulp-jade/) to pre-compile an html template for rendering the actions tree (instead of using jQuery DOM manipulation)
 * Make it easy to create new and custom action types just by providing an action type definition, e.g.
 ```javascript
 var linkClickedActionType = {
