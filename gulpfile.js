@@ -10,7 +10,7 @@ gulp.task('default', ['clean', 'build']);
 gulp.task('clean', del.bind(null, ['.tmp', 'dist/*', '!dist/.git'], {dot: true}));
 
 gulp.task('build', function() {
-  gulp.src(['./src/*.js', '!./src/shepherd.core.js'])
+  gulp.src(['./src/*.js', '!./src/shepherd.core.js', '!./src/shepherd.ui.js'])
     .pipe(fileinclude({
       prefix: '//@@',
       basepath: '@file'
