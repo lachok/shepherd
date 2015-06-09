@@ -21,6 +21,7 @@ At the moment this is more a proof-of-concept than anything really useful. The m
 ### TODO
 * ~~Use a build system (gulp?) so that the code can be easier to organise but is still compiled into a single file~~
 * ~~Organise the source code into core and modules, e.g. actionType modules, rendering module, etc.~~
+* Update README with build instructions
 * Add tests
 * Make it easy to integrate with popular feedback forms
 * Save a timestamp for each action
