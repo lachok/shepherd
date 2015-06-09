@@ -1,9 +1,4 @@
 /* global jQuery */
 
-(function($) {
-	
-	//@@include('./shepherd.core.js')
-
-	//@@include('./shepherd.ui.js')
-
-})(jQuery);
+var ui = require('./shepherd.ui')(jQuery);
+var core = require('./shepherd.core')(jQuery, ui);

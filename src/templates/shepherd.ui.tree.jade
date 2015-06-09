@@ -1,0 +1,13 @@
+div.shepherd-summary-tree
+  ul
+    each page in pages
+      li.parent_li
+        span(title="Collapse this branch")= page.title
+        ul
+          each action in page.actions
+            li.parent_li
+              span(title="Collapse this branch")= action.actionType
+              ul
+                each propName in Object.getOwnPropertyNames(action)
+                  li
+                    span=propName + ' - ' + action[propName]
