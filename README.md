@@ -19,12 +19,12 @@ It does this by providing a simple and extensible interface for defining user ac
 At the moment this is more a proof-of-concept than anything really useful. The main file (shepherd.js) contains [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) headers so that it can be injected into any website for testing.
 
 ### TODO
-* Use a build system (gulp?) so that the code can be easier to organise but is still compiled into a single file
-* Organise the source code into core and modules, e.g. actionType modules, rendering module, etc.
+* ~~Use a build system (gulp?) so that the code can be easier to organise but is still compiled into a single file~~
+* ~~Organise the source code into core and modules, e.g. actionType modules, rendering module, etc.~~
 * Add tests
 * Make it easy to integrate with popular feedback forms
 * Save a timestamp for each action
-* Use [gulp-jade](https://www.npmjs.com/package/gulp-jade/) to pre-compile an html template for rendering the actions tree (instead of using jQuery DOM manipulation)
+* ~~Use [gulp-jade](https://www.npmjs.com/package/gulp-jade/) to pre-compile an html template for rendering the actions tree (instead of using jQuery DOM manipulation)~~
 * Make it easy to create new and custom action types just by providing an action type definition, e.g.
 ```javascript
 var linkClickedActionType = {
