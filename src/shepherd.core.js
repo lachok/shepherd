@@ -2,8 +2,7 @@
 module.exports = function($, shepherdUi) {
 	
 	var Modernizr = Modernizr || {};
-	Modernizr.localstorage = Modernizr.localstorage
-		|| 'localStorage' in window && window.localStorage !== null;
+	Modernizr.localstorage = Modernizr.localstorage || 'localStorage' in window && window.localStorage !== null;
 		
 	var currentPage = {
 		url: window.location.href,
@@ -66,7 +65,7 @@ module.exports = function($, shepherdUi) {
 		});
 		
 		$('form').focus(function(event) {
-			$(this).data('focussed', $(event.target))
+			$(this).data('focussed', $(event.target));
 		});
 		
 		if(shepherdUi)
