@@ -7,7 +7,10 @@ var del = require('del');
 var fileinclude = require('gulp-file-include');
 var jade = require('gulp-jade');
 var browserify = require('browserify');
+var uglify = require('gulp-uglify');
+var rename = require('gulp-rename');
 var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 var insert = require('gulp-insert');
 var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
@@ -30,6 +33,10 @@ gulp.task('browserify', ['lintjs', 'templates'], function() {
     return browserify('./src/shepherd.js').bundle()
         // vinyl-source-stream makes the bundle compatible with gulp
         .pipe(source('shepherd.js')) // Desired filename
+        .pipe(gulp.dest('./dist/'))
+        .pipe(buffer())
+        .pipe(uglify())
+        .pipe(rename({ extname: '.min.js' }))
         // Output the file
         .pipe(gulp.dest('./dist/'));
 });
