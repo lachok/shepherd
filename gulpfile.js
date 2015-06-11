@@ -1,3 +1,5 @@
+/* jshint globalstrict: true */
+/* global require */
 'use strict';
 
 var gulp = require('gulp');
@@ -7,6 +9,8 @@ var jade = require('gulp-jade');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var insert = require('gulp-insert');
+var jshint = require('gulp-jshint');
+var stylish = require('jshint-stylish');
 
 gulp.task('default', ['clean', 'dist']);
 
@@ -19,10 +23,10 @@ gulp.task('templates', function() {
       client: true
     }))
     .pipe(insert.prepend('var jade = require(\'../../lib/jade.runtime\');\nmodule.exports = '))
-    .pipe(gulp.dest('./src/templates'))
+    .pipe(gulp.dest('./src/templates'));
 });
 
-gulp.task('browserify', ['templates'], function() {
+gulp.task('browserify', ['lintjs', 'templates'], function() {
     return browserify('./src/shepherd.js').bundle()
         // vinyl-source-stream makes the bundle compatible with gulp
         .pipe(source('shepherd.js')) // Desired filename
@@ -37,4 +41,10 @@ gulp.task('dist', ['browserify'], function() {
       basepath: './dist/'
     }))
     .pipe(gulp.dest('./dist/'));
+});
+
+gulp.task('lintjs', function() {
+  return gulp.src(['gulpfile.js', './src/*.js'])
+    .pipe(jshint())
+    .pipe(jshint.reporter(stylish));
 });
