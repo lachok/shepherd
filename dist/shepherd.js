@@ -379,13 +379,12 @@ module.exports = function($, actionTypes, shepherdUi) {
 },{}],5:[function(require,module,exports){
 /* global jQuery */
 
-var ui = require('./shepherd.ui')(jQuery);
-var actionTypes = require('./shepherd.actionTypes');
-var core = require('./shepherd.core')(jQuery, actionTypes, ui);
-},{"./shepherd.actionTypes":3,"./shepherd.core":4,"./shepherd.ui":6}],6:[function(require,module,exports){
 var template = require('./templates/shepherd.ui.tree');
-
-module.exports = function($) {	
+var actionTypes = require('./shepherd.actionTypes');
+var ui = require('./shepherd.ui')(jQuery, template);
+var core = require('./shepherd.core')(jQuery, actionTypes, ui);
+},{"./shepherd.actionTypes":3,"./shepherd.core":4,"./shepherd.ui":6,"./templates/shepherd.ui.tree":7}],6:[function(require,module,exports){
+module.exports = function($, template) {	
 	
 	function applyTreeBehaviour() {
 	    $('.shepherd-summary-tree li.parent_li > span').on('click', function (e) {
@@ -490,7 +489,7 @@ module.exports = function($) {
 	};
 		
 };
-},{"./templates/shepherd.ui.tree":7}],7:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 var jade = require('../../lib/jade.runtime');
 module.exports = function template(locals) {
 var buf = [];
