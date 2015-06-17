@@ -31,7 +31,9 @@ var attachToDropdowns = {
 	selector: 'select',
 	events: 'change',
 	attributesExtractor: function($element) {
-		return {};
+		return {
+			text: $element.find('option:selected').text()
+		};
 	}
 };
 
