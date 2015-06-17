@@ -13,7 +13,7 @@ buf.push("<div class=\"shepherd-summary-tree\"><ul>");
     for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
       var page = $$obj[$index];
 
-buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade.escape(null == (jade_interp = page.title + ':' + page.url) ? "" : jade_interp)) + "</span><ul>");
+buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade.escape(null == (jade_interp = page.title + ' [' + page.url + ']') ? "" : jade_interp)) + "</span><ul>");
 // iterate page.actions
 ;(function(){
   var $$obj = page.actions;
@@ -90,7 +90,7 @@ buf.push("</ul></li>");
     for (var $index in $$obj) {
       $$l++;      var page = $$obj[$index];
 
-buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade.escape(null == (jade_interp = page.title + ':' + page.url) ? "" : jade_interp)) + "</span><ul>");
+buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade.escape(null == (jade_interp = page.title + ' [' + page.url + ']') ? "" : jade_interp)) + "</span><ul>");
 // iterate page.actions
 ;(function(){
   var $$obj = page.actions;
