@@ -34,6 +34,7 @@ module.exports = function($, actionTypes, shepherdUi) {
 		    return function () {
 				var action = actionType.attributesExtractor($(this));
 				action.actionType = actionType.actionType;
+				action.timestamp = new Date().toISOString();
 				
 				currentPage.actions.push(action);
 		    };
