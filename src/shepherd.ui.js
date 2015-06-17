@@ -1,6 +1,5 @@
 var template = require('./templates/shepherd.ui.tree');
 
-/* global shepherdTreeTemplate */
 module.exports = function($) {	
 	
 	function applyTreeBehaviour() {
