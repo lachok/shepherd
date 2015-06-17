@@ -1,5 +1,5 @@
 
-module.exports = function($, shepherdUi) {
+module.exports = function($, actionTypes, shepherdUi) {
 	
 	var Modernizr = Modernizr || {};
 	Modernizr.localstorage = Modernizr.localstorage || 'localStorage' in window && window.localStorage !== null;
@@ -14,46 +14,39 @@ module.exports = function($, shepherdUi) {
 	if(Modernizr.localstorage) {
 		console.log("Local storage is supported.");
 		
-		// attach to anchors
-		$('a').click(function() {
-			var $this = $(this);
-			
-			var action = {
-				actionType: 'clicked link',
-				href: $this.attr('href'),
-				title: $this.attr('title'),
-				text: $this.text()
-			};
-			currentPage.actions.push(action);
+		attachActionTypes(actionTypes);
+		
+		attachToForms();		
+		
+		showSummary();
+	
+		window.addEventListener("beforeunload", function (e) {
+			saveCurrentPage();
 		});
 		
-		// attach to inputs
-		$('input, textarea').change(function() {
-			var $this = $(this);
-			
-			var value = $this.val();
-			if($this.attr('type') === 'password') {
-				value = '********';
-			}
-			
-			var action = {
-				actionType: 'entered text',
-				value: value
-			};
-			currentPage.actions.push(action);
-		});
+	} else {
+		console.log("Local storage is not supported.");
+	}
+	
+	function attachActionTypes(actionTypes) {
 		
-		// attach to dropdowns
-		$('select').change(function() {
-			var $this = $(this);
-			
-			var action = {
-				actionType: 'selected option'
-			};
-			currentPage.actions.push(action);
-		});
+		var makeActionHandler = function(actionType) {
+		    return function () {
+				var action = actionType.attributesExtractor($(this));
+				action.actionType = actionType.actionType;
+				
+				currentPage.actions.push(action);
+		    };
+		};
 		
-		// attach to forms
+		// attach actionTypes
+		for(var i = 0; i < actionTypes.length; i++) {
+			var actionType = actionTypes[i];
+			$(actionType.selector).on(actionType.events, makeActionHandler(actionType));
+		}
+	}
+	
+	function attachToForms() {
 		$('form').submit(function() {
 			var $this = $(this);
 			
@@ -67,17 +60,17 @@ module.exports = function($, shepherdUi) {
 		$('form').focus(function(event) {
 			$(this).data('focussed', $(event.target));
 		});
-		
-		if(shepherdUi)
-			shepherdUi.showSummary();
-		
-	} else {
-		console.log("Local storage is not supported.");
 	}
 	
-	window.addEventListener("beforeunload", function (e) {
-		saveCurrentPage();
-	});
+	function showSummary() {
+		if(shepherdUi) {
+			var pages = [];
+			if(typeof(window.localStorage["Shepherd.pages"]) !=='undefined') {
+				pages = JSON.parse(window.localStorage["Shepherd.pages"]);
+			}
+			shepherdUi.showSummary(pages);
+		}
+	}
 	
 	function saveCurrentPage() {
 		var pages = [];
