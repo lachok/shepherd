@@ -6,8 +6,9 @@ div.shepherd-summary-tree
         ul
           each action in page.actions
             li.parent_li
-              span(title="Collapse this branch")= action.actionType
+              span(title="Collapse this branch")= action.actionType + ' [' + action.text + ']'
               ul
                 each propName in Object.getOwnPropertyNames(action)
-                  li
-                    span=propName + ' - ' + action[propName]
+                  if (propName != 'actionType' && propName != 'text')
+                    li
+                      span=propName + ' - ' + action[propName]

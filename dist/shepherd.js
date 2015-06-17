@@ -516,7 +516,7 @@ buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade
     for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
       var action = $$obj[$index];
 
-buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade.escape(null == (jade_interp = action.actionType) ? "" : jade_interp)) + "</span><ul>");
+buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade.escape(null == (jade_interp = action.actionType + ' [' + action.text + ']') ? "" : jade_interp)) + "</span><ul>");
 // iterate Object.getOwnPropertyNames(action)
 ;(function(){
   var $$obj = Object.getOwnPropertyNames(action);
@@ -525,7 +525,10 @@ buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade
     for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
       var propName = $$obj[$index];
 
+if ( (propName != 'actionType' && propName != 'text'))
+{
 buf.push("<li><span>" + (jade.escape(null == (jade_interp = propName + ' - ' + action[propName]) ? "" : jade_interp)) + "</span></li>");
+}
     }
 
   } else {
@@ -533,7 +536,10 @@ buf.push("<li><span>" + (jade.escape(null == (jade_interp = propName + ' - ' + a
     for (var $index in $$obj) {
       $$l++;      var propName = $$obj[$index];
 
+if ( (propName != 'actionType' && propName != 'text'))
+{
 buf.push("<li><span>" + (jade.escape(null == (jade_interp = propName + ' - ' + action[propName]) ? "" : jade_interp)) + "</span></li>");
+}
     }
 
   }
@@ -547,7 +553,7 @@ buf.push("</ul></li>");
     for (var $index in $$obj) {
       $$l++;      var action = $$obj[$index];
 
-buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade.escape(null == (jade_interp = action.actionType) ? "" : jade_interp)) + "</span><ul>");
+buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade.escape(null == (jade_interp = action.actionType + ' [' + action.text + ']') ? "" : jade_interp)) + "</span><ul>");
 // iterate Object.getOwnPropertyNames(action)
 ;(function(){
   var $$obj = Object.getOwnPropertyNames(action);
@@ -556,7 +562,10 @@ buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade
     for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
       var propName = $$obj[$index];
 
+if ( (propName != 'actionType' && propName != 'text'))
+{
 buf.push("<li><span>" + (jade.escape(null == (jade_interp = propName + ' - ' + action[propName]) ? "" : jade_interp)) + "</span></li>");
+}
     }
 
   } else {
@@ -564,7 +573,10 @@ buf.push("<li><span>" + (jade.escape(null == (jade_interp = propName + ' - ' + a
     for (var $index in $$obj) {
       $$l++;      var propName = $$obj[$index];
 
+if ( (propName != 'actionType' && propName != 'text'))
+{
 buf.push("<li><span>" + (jade.escape(null == (jade_interp = propName + ' - ' + action[propName]) ? "" : jade_interp)) + "</span></li>");
+}
     }
 
   }
@@ -593,7 +605,7 @@ buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade
     for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
       var action = $$obj[$index];
 
-buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade.escape(null == (jade_interp = action.actionType) ? "" : jade_interp)) + "</span><ul>");
+buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade.escape(null == (jade_interp = action.actionType + ' [' + action.text + ']') ? "" : jade_interp)) + "</span><ul>");
 // iterate Object.getOwnPropertyNames(action)
 ;(function(){
   var $$obj = Object.getOwnPropertyNames(action);
@@ -602,7 +614,10 @@ buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade
     for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
       var propName = $$obj[$index];
 
+if ( (propName != 'actionType' && propName != 'text'))
+{
 buf.push("<li><span>" + (jade.escape(null == (jade_interp = propName + ' - ' + action[propName]) ? "" : jade_interp)) + "</span></li>");
+}
     }
 
   } else {
@@ -610,7 +625,10 @@ buf.push("<li><span>" + (jade.escape(null == (jade_interp = propName + ' - ' + a
     for (var $index in $$obj) {
       $$l++;      var propName = $$obj[$index];
 
+if ( (propName != 'actionType' && propName != 'text'))
+{
 buf.push("<li><span>" + (jade.escape(null == (jade_interp = propName + ' - ' + action[propName]) ? "" : jade_interp)) + "</span></li>");
+}
     }
 
   }
@@ -624,7 +642,7 @@ buf.push("</ul></li>");
     for (var $index in $$obj) {
       $$l++;      var action = $$obj[$index];
 
-buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade.escape(null == (jade_interp = action.actionType) ? "" : jade_interp)) + "</span><ul>");
+buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade.escape(null == (jade_interp = action.actionType + ' [' + action.text + ']') ? "" : jade_interp)) + "</span><ul>");
 // iterate Object.getOwnPropertyNames(action)
 ;(function(){
   var $$obj = Object.getOwnPropertyNames(action);
@@ -633,7 +651,10 @@ buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade
     for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
       var propName = $$obj[$index];
 
+if ( (propName != 'actionType' && propName != 'text'))
+{
 buf.push("<li><span>" + (jade.escape(null == (jade_interp = propName + ' - ' + action[propName]) ? "" : jade_interp)) + "</span></li>");
+}
     }
 
   } else {
@@ -641,7 +662,10 @@ buf.push("<li><span>" + (jade.escape(null == (jade_interp = propName + ' - ' + a
     for (var $index in $$obj) {
       $$l++;      var propName = $$obj[$index];
 
+if ( (propName != 'actionType' && propName != 'text'))
+{
 buf.push("<li><span>" + (jade.escape(null == (jade_interp = propName + ' - ' + action[propName]) ? "" : jade_interp)) + "</span></li>");
+}
     }
 
   }
