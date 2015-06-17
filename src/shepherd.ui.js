@@ -92,13 +92,8 @@ module.exports = function($) {
 	
 	
 	return {
-		showSummary: function() {
-				
-			var pages = [];
-			if(typeof(window.localStorage["Shepherd.pages"]) !=='undefined') {
-				pages = JSON.parse(window.localStorage["Shepherd.pages"]);
-			}
-			
+		showSummary: function(pages) {
+						
 			injectCSS();
 			var locals = {pages: pages};
 				

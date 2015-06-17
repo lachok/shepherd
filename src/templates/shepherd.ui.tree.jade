@@ -2,7 +2,7 @@ div.shepherd-summary-tree
   ul
     each page in pages
       li.parent_li
-        span(title="Collapse this branch")= page.title
+        span(title="Collapse this branch")= page.title + ':' + page.url
         ul
           each action in page.actions
             li.parent_li

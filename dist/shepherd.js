@@ -247,8 +247,47 @@ exports.DebugItem = function DebugItem(lineno, filename) {
 },{"fs":2}],2:[function(require,module,exports){
 
 },{}],3:[function(require,module,exports){
+var attachToAnchors = {
+	actionType: 'clicked link',
+	selector: 'a',
+	events: 'click',
+	attributesExtractor: function($element) {
+		return {
+			href: $element.attr('href'),
+			title: $element.attr('title'),
+			text: $element.text()
+		};
+	}
+};
 
-module.exports = function($, shepherdUi) {
+var attachToInputs = {
+	actionType: 'entered text',
+	selector: 'input, textarea',
+	events: 'change',
+	attributesExtractor: function($element) {
+		var value = $element.val();
+		if($element.attr('type') === 'password') {
+			value = '********';
+		}
+		return {
+			value: value
+		};
+	}
+};
+
+var attachToDropdowns = {		
+	actionType: 'selected option',
+	selector: 'select',
+	events: 'change',
+	attributesExtractor: function($element) {
+		return {};
+	}
+};
+
+module.exports = [attachToAnchors, attachToInputs, attachToDropdowns];
+},{}],4:[function(require,module,exports){
+
+module.exports = function($, actionTypes, shepherdUi) {
 	
 	var Modernizr = Modernizr || {};
 	Modernizr.localstorage = Modernizr.localstorage || 'localStorage' in window && window.localStorage !== null;
@@ -263,46 +302,39 @@ module.exports = function($, shepherdUi) {
 	if(Modernizr.localstorage) {
 		console.log("Local storage is supported.");
 		
-		// attach to anchors
-		$('a').click(function() {
-			var $this = $(this);
-			
-			var action = {
-				actionType: 'clicked link',
-				href: $this.attr('href'),
-				title: $this.attr('title'),
-				text: $this.text()
-			};
-			currentPage.actions.push(action);
+		attachActionTypes(actionTypes);
+		
+		attachToForms();		
+		
+		showSummary();
+	
+		window.addEventListener("beforeunload", function (e) {
+			saveCurrentPage();
 		});
 		
-		// attach to inputs
-		$('input, textarea').change(function() {
-			var $this = $(this);
-			
-			var value = $this.val();
-			if($this.attr('type') === 'password') {
-				value = '********';
-			}
-			
-			var action = {
-				actionType: 'entered text',
-				value: value
-			};
-			currentPage.actions.push(action);
-		});
+	} else {
+		console.log("Local storage is not supported.");
+	}
+	
+	function attachActionTypes(actionTypes) {
 		
-		// attach to dropdowns
-		$('select').change(function() {
-			var $this = $(this);
-			
-			var action = {
-				actionType: 'selected option'
-			};
-			currentPage.actions.push(action);
-		});
+		var makeActionHandler = function(actionType) {
+		    return function () {
+				var action = actionType.attributesExtractor($(this));
+				action.actionType = actionType.actionType;
+				
+				currentPage.actions.push(action);
+		    };
+		};
 		
-		// attach to forms
+		// attach actionTypes
+		for(var i = 0; i < actionTypes.length; i++) {
+			var actionType = actionTypes[i];
+			$(actionType.selector).on(actionType.events, makeActionHandler(actionType));
+		}
+	}
+	
+	function attachToForms() {
 		$('form').submit(function() {
 			var $this = $(this);
 			
@@ -316,17 +348,17 @@ module.exports = function($, shepherdUi) {
 		$('form').focus(function(event) {
 			$(this).data('focussed', $(event.target));
 		});
-		
-		if(shepherdUi)
-			shepherdUi.showSummary();
-		
-	} else {
-		console.log("Local storage is not supported.");
 	}
 	
-	window.addEventListener("beforeunload", function (e) {
-		saveCurrentPage();
-	});
+	function showSummary() {
+		if(shepherdUi) {
+			var pages = [];
+			if(typeof(window.localStorage["Shepherd.pages"]) !=='undefined') {
+				pages = JSON.parse(window.localStorage["Shepherd.pages"]);
+			}
+			shepherdUi.showSummary(pages);
+		}
+	}
 	
 	function saveCurrentPage() {
 		var pages = [];
@@ -344,15 +376,15 @@ module.exports = function($, shepherdUi) {
 	}
 		
 };
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /* global jQuery */
 
 var ui = require('./shepherd.ui')(jQuery);
-var core = require('./shepherd.core')(jQuery, ui);
-},{"./shepherd.core":3,"./shepherd.ui":5}],5:[function(require,module,exports){
+var actionTypes = require('./shepherd.actionTypes');
+var core = require('./shepherd.core')(jQuery, actionTypes, ui);
+},{"./shepherd.actionTypes":3,"./shepherd.core":4,"./shepherd.ui":6}],6:[function(require,module,exports){
 var template = require('./templates/shepherd.ui.tree');
 
-/* global shepherdTreeTemplate */
 module.exports = function($) {	
 	
 	function applyTreeBehaviour() {
@@ -445,13 +477,8 @@ module.exports = function($) {
 	
 	
 	return {
-		showSummary: function() {
-				
-			var pages = [];
-			if(typeof(window.localStorage["Shepherd.pages"]) !=='undefined') {
-				pages = JSON.parse(window.localStorage["Shepherd.pages"]);
-			}
-			
+		showSummary: function(pages) {
+						
 			injectCSS();
 			var locals = {pages: pages};
 				
@@ -463,7 +490,7 @@ module.exports = function($) {
 	};
 		
 };
-},{"./templates/shepherd.ui.tree":6}],6:[function(require,module,exports){
+},{"./templates/shepherd.ui.tree":7}],7:[function(require,module,exports){
 var jade = require('../../lib/jade.runtime');
 module.exports = function template(locals) {
 var buf = [];
@@ -479,7 +506,7 @@ buf.push("<div class=\"shepherd-summary-tree\"><ul>");
     for (var $index = 0, $$l = $$obj.length; $index < $$l; $index++) {
       var page = $$obj[$index];
 
-buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade.escape(null == (jade_interp = page.title) ? "" : jade_interp)) + "</span><ul>");
+buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade.escape(null == (jade_interp = page.title + ':' + page.url) ? "" : jade_interp)) + "</span><ul>");
 // iterate page.actions
 ;(function(){
   var $$obj = page.actions;
@@ -556,7 +583,7 @@ buf.push("</ul></li>");
     for (var $index in $$obj) {
       $$l++;      var page = $$obj[$index];
 
-buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade.escape(null == (jade_interp = page.title) ? "" : jade_interp)) + "</span><ul>");
+buf.push("<li class=\"parent_li\"><span title=\"Collapse this branch\">" + (jade.escape(null == (jade_interp = page.title + ':' + page.url) ? "" : jade_interp)) + "</span><ul>");
 // iterate page.actions
 ;(function(){
   var $$obj = page.actions;
@@ -633,4 +660,4 @@ buf.push("</ul></li>");
 
 buf.push("</ul></div>");}.call(this,"Object" in locals_for_with?locals_for_with.Object:typeof Object!=="undefined"?Object:undefined,"pages" in locals_for_with?locals_for_with.pages:typeof pages!=="undefined"?pages:undefined,"undefined" in locals_for_with?locals_for_with.undefined:typeof undefined!=="undefined"?undefined:undefined));;return buf.join("");
 }
-},{"../../lib/jade.runtime":1}]},{},[4]);
+},{"../../lib/jade.runtime":1}]},{},[5]);
