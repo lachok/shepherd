@@ -1,6 +1,4 @@
-var template = require('./templates/shepherd.ui.tree');
-
-module.exports = function($) {	
+module.exports = function($, template) {	
 	
 	function applyTreeBehaviour() {
 	    $('.shepherd-summary-tree li.parent_li > span').on('click', function (e) {
