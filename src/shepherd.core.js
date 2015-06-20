@@ -2,7 +2,7 @@
 module.exports = function($, actionTypes, shepherdUi) {
 	
 	var Modernizr = Modernizr || {};
-	Modernizr.localstorage = Modernizr.localstorage || 'localStorage' in window && window.localStorage !== null;
+	Modernizr.sessionstorage = Modernizr.sessionstorage || 'sessionStorage' in window && window.sessionStorage !== null;
 		
 	var currentPage = {
 		url: window.location.href,
@@ -11,7 +11,7 @@ module.exports = function($, actionTypes, shepherdUi) {
 	};
 	
 	console.log("Loading shepherd...");
-	if(Modernizr.localstorage) {
+	if(Modernizr.sessionstorage) {
 		console.log("Local storage is supported.");
 		
 		attachActionTypes(actionTypes);
@@ -66,8 +66,8 @@ module.exports = function($, actionTypes, shepherdUi) {
 	function showSummary() {
 		if(shepherdUi) {
 			var pages = [];
-			if(typeof(window.localStorage["Shepherd.pages"]) !=='undefined') {
-				pages = JSON.parse(window.localStorage["Shepherd.pages"]);
+			if(typeof(window.sessionStorage["Shepherd.pages"]) !=='undefined') {
+				pages = JSON.parse(window.sessionStorage["Shepherd.pages"]);
 			}
 			shepherdUi.showSummary(pages);
 		}
@@ -75,16 +75,16 @@ module.exports = function($, actionTypes, shepherdUi) {
 	
 	function saveCurrentPage() {
 		var pages = [];
-		if(typeof(window.localStorage["Shepherd.pages"]) !=='undefined') {
-			pages = JSON.parse(window.localStorage["Shepherd.pages"]);
+		if(typeof(window.sessionStorage["Shepherd.pages"]) !=='undefined') {
+			pages = JSON.parse(window.sessionStorage["Shepherd.pages"]);
 		}
 		pages.push(currentPage);
 		pages.splice(0, pages.length - 5);
-		window.localStorage["Shepherd.pages"] = JSON.stringify(pages);
+		window.sessionStorage["Shepherd.pages"] = JSON.stringify(pages);
 	}
 	
 	function logUserActionsToConsole() {
-		var userActions = JSON.parse(window.localStorage["Shepherd.pages"]);
+		var userActions = JSON.parse(window.sessionStorage["Shepherd.pages"]);
 		console.log(userActions);
 	}
 		
