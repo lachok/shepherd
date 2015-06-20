@@ -1,8 +1,8 @@
 # Shepherd
 
-### Capture useful data about your users' last actions on your website leading up to the submission of feedback
+### Capture useful data about your users' actions leading up to the submission of feedback
 
-Shepherd provides insight into a user's last actoins before submitting feedback on your site. This is so that:
+Shepherd provides insight into a user's last actions before submitting feedback on your site. This is so that:
 * It's easy for users to submit feedback
 * It's easy for developers to understand feedback
 
