@@ -12,7 +12,7 @@ module.exports = function($, actionTypes, shepherdUi) {
 	
 	console.log("Loading shepherd...");
 	if(Modernizr.sessionstorage) {
-		console.log("Local storage is supported.");
+		console.log("Session storage is supported.");
 		
 		attachActionTypes(actionTypes);
 		
@@ -25,7 +25,7 @@ module.exports = function($, actionTypes, shepherdUi) {
 		});
 		
 	} else {
-		console.log("Local storage is not supported.");
+		console.log("Session storage is not supported.");
 	}
 	
 	function attachActionTypes(actionTypes) {
