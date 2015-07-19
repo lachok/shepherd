@@ -1,9 +1,9 @@
 
-module.exports = function($, actionTypes, shepherdUi) {
+module.exports = function($, actionTypes, shepherdUi, integration) {
 	
 	var Modernizr = Modernizr || {};
 	Modernizr.sessionstorage = Modernizr.sessionstorage || 'sessionStorage' in window && window.sessionStorage !== null;
-		
+	
 	var currentPage = {
 		url: window.location.href,
 		title: document.title,
@@ -12,20 +12,22 @@ module.exports = function($, actionTypes, shepherdUi) {
 	
 	console.log("Loading shepherd...");
 	if(Modernizr.sessionstorage) {
-		console.log("Local storage is supported.");
+		console.log("Session storage is supported.");
 		
 		attachActionTypes(actionTypes);
 		
 		attachToForms();		
 		
 		showSummary();
+		
+		attachIntegration();
 	
 		window.addEventListener("beforeunload", function (e) {
 			saveCurrentPage();
 		});
 		
 	} else {
-		console.log("Local storage is not supported.");
+		console.log("Session storage is not supported.");
 	}
 	
 	function attachActionTypes(actionTypes) {
@@ -63,24 +65,37 @@ module.exports = function($, actionTypes, shepherdUi) {
 		});
 	}
 	
+	function attachIntegration() {
+		if(integration) {
+			$(function() {
+				if(integration.when()) {
+					var pages = getPages();
+					integration.how(pages);
+				}
+			});
+		}
+	}
+	
 	function showSummary() {
 		if(shepherdUi) {
-			var pages = [];
-			if(typeof(window.sessionStorage["Shepherd.pages"]) !=='undefined') {
-				pages = JSON.parse(window.sessionStorage["Shepherd.pages"]);
-			}
+			var pages = getPages();
 			shepherdUi.showSummary(pages);
 		}
 	}
 	
 	function saveCurrentPage() {
+		var pages = getPages();
+		pages.push(currentPage);
+		pages.splice(0, pages.length - 5);
+		window.sessionStorage["Shepherd.pages"] = JSON.stringify(pages);
+	}
+	
+	function getPages() {
 		var pages = [];
 		if(typeof(window.sessionStorage["Shepherd.pages"]) !=='undefined') {
 			pages = JSON.parse(window.sessionStorage["Shepherd.pages"]);
 		}
-		pages.push(currentPage);
-		pages.splice(0, pages.length - 5);
-		window.sessionStorage["Shepherd.pages"] = JSON.stringify(pages);
+		return pages;
 	}
 	
 	function logUserActionsToConsole() {
