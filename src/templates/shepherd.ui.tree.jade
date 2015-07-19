@@ -1,3 +1,25 @@
+- var timeDiff = function(date1, date2) {
+-   var date1 = new Date(date1);
+-   var date2 = new Date(date2);
+-   return Math.abs(date2.getTime() - date1.getTime());
+- }
+
+- var getMostRecentAction = function(pages) {
+-   var currentPage = 1;
+-   var mostRecentPage = pages[pages.length-currentPage];
+-   while(mostRecentPage.actions.length == 0 && currentPage < pages.length) {
+-       currentPage++;
+-       mostRecentPage = pages[pages.length-currentPage];
+-   }
+-   return mostRecentPage.actions[mostRecentPage.actions.length-1];
+- }
+
+- var getTime = function(action, pages) {
+-   var mostRecentAction = getMostRecentAction(pages);
+-   var time = timeDiff(action.timestamp, mostRecentAction.timestamp);
+-   return Math.ceil(time / 1000);
+- }
+
 div.shepherd-summary-tree
   ul
     each page in pages
@@ -6,9 +28,9 @@ div.shepherd-summary-tree
         ul
           each action in page.actions
             li.parent_li
-              span(title="Collapse this branch")= action.actionType + ' [' + action.text + ']'
+              span(title="Collapse this branch")= '(T-' + getTime(action, pages) + 's) ' + action.actionType + ' [' + action.text + ']'
               ul
                 each propName in Object.getOwnPropertyNames(action)
-                  if (propName != 'actionType' && propName != 'text')
+                  if (propName != 'actionType' && propName != 'text' && propName != 'timestamp')
                     li
                       span=propName + ' - ' + action[propName]
