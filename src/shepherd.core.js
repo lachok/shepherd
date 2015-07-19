@@ -55,7 +55,8 @@ module.exports = function($, actionTypes, shepherdUi, integration) {
 			
 			var action = {
 				actionType: 'submitted form',
-				source: $this.data('focussed')
+				source: $this.data('focussed'),
+				timestamp: new Date().toISOString()
 			};
 			currentPage.actions.push(action);
 		});
