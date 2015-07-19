@@ -313,11 +313,11 @@ var attachToDropdowns = {
 module.exports = [attachToAnchors, attachToInputs, attachToDropdowns];
 },{}],4:[function(require,module,exports){
 
-module.exports = function($, actionTypes, shepherdUi) {
+module.exports = function($, actionTypes, shepherdUi, integration) {
 	
 	var Modernizr = Modernizr || {};
 	Modernizr.sessionstorage = Modernizr.sessionstorage || 'sessionStorage' in window && window.sessionStorage !== null;
-		
+	
 	var currentPage = {
 		url: window.location.href,
 		title: document.title,
@@ -326,20 +326,22 @@ module.exports = function($, actionTypes, shepherdUi) {
 	
 	console.log("Loading shepherd...");
 	if(Modernizr.sessionstorage) {
-		console.log("Local storage is supported.");
+		console.log("Session storage is supported.");
 		
 		attachActionTypes(actionTypes);
 		
 		attachToForms();		
 		
-		showSummary();
+		attachUi();
+		
+		attachIntegration();
 	
 		window.addEventListener("beforeunload", function (e) {
 			saveCurrentPage();
 		});
 		
 	} else {
-		console.log("Local storage is not supported.");
+		console.log("Session storage is not supported.");
 	}
 	
 	function attachActionTypes(actionTypes) {
@@ -377,24 +379,37 @@ module.exports = function($, actionTypes, shepherdUi) {
 		});
 	}
 	
-	function showSummary() {
+	function attachIntegration() {
+		if(integration) {
+			$(function() {
+				if(integration.when()) {
+					var pages = getPages();
+					integration.how(pages);
+				}
+			});
+		}
+	}
+	
+	function attachUi() {
 		if(shepherdUi) {
-			var pages = [];
-			if(typeof(window.sessionStorage["Shepherd.pages"]) !=='undefined') {
-				pages = JSON.parse(window.sessionStorage["Shepherd.pages"]);
-			}
+			var pages = getPages();
 			shepherdUi.showSummary(pages);
 		}
 	}
 	
 	function saveCurrentPage() {
+		var pages = getPages();
+		pages.push(currentPage);
+		pages.splice(0, pages.length - 5);
+		window.sessionStorage["Shepherd.pages"] = JSON.stringify(pages);
+	}
+	
+	function getPages() {
 		var pages = [];
 		if(typeof(window.sessionStorage["Shepherd.pages"]) !=='undefined') {
 			pages = JSON.parse(window.sessionStorage["Shepherd.pages"]);
 		}
-		pages.push(currentPage);
-		pages.splice(0, pages.length - 5);
-		window.sessionStorage["Shepherd.pages"] = JSON.stringify(pages);
+		return pages;
 	}
 	
 	function logUserActionsToConsole() {
@@ -404,13 +419,25 @@ module.exports = function($, actionTypes, shepherdUi) {
 		
 };
 },{}],5:[function(require,module,exports){
+module.exports = function($) {
+	return {
+		when: function() {
+			return false;
+		},
+		how: function(data) {
+			
+		}
+	};
+};
+},{}],6:[function(require,module,exports){
 /* global jQuery */
 
 var template = require('./templates/shepherd.ui.tree');
 var actionTypes = require('./shepherd.actionTypes');
 var ui = require('./shepherd.ui')(jQuery, template);
-var core = require('./shepherd.core')(jQuery, actionTypes, ui);
-},{"./shepherd.actionTypes":3,"./shepherd.core":4,"./shepherd.ui":6,"./templates/shepherd.ui.tree":7}],6:[function(require,module,exports){
+var integration = require('./shepherd.integration')(jQuery);
+var core = require('./shepherd.core')(jQuery, actionTypes, ui, integration);
+},{"./shepherd.actionTypes":3,"./shepherd.core":4,"./shepherd.integration":5,"./shepherd.ui":7,"./templates/shepherd.ui.tree":8}],7:[function(require,module,exports){
 module.exports = function($, template) {	
 	
 	function applyTreeBehaviour() {
@@ -516,7 +543,7 @@ module.exports = function($, template) {
 	};
 		
 };
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var jade = require('../../lib/jade.runtime');
 module.exports = function template(locals) {
 var buf = [];
@@ -710,4 +737,4 @@ buf.push("</ul></li>");
 
 buf.push("</ul></div>");}.call(this,"Object" in locals_for_with?locals_for_with.Object:typeof Object!=="undefined"?Object:undefined,"pages" in locals_for_with?locals_for_with.pages:typeof pages!=="undefined"?pages:undefined,"undefined" in locals_for_with?locals_for_with.undefined:typeof undefined!=="undefined"?undefined:undefined));;return buf.join("");
 }
-},{"../../lib/jade.runtime":1}]},{},[5]);
+},{"../../lib/jade.runtime":1}]},{},[6]);

@@ -18,7 +18,7 @@ module.exports = function($, actionTypes, shepherdUi, integration) {
 		
 		attachToForms();		
 		
-		showSummary();
+		attachUi();
 		
 		attachIntegration();
 	
@@ -76,7 +76,7 @@ module.exports = function($, actionTypes, shepherdUi, integration) {
 		}
 	}
 	
-	function showSummary() {
+	function attachUi() {
 		if(shepherdUi) {
 			var pages = getPages();
 			shepherdUi.showSummary(pages);
